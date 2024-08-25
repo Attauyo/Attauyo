@@ -1,22 +1,20 @@
 <?php
-session_start();
-include '../includes/db_connection.php';
+include('../db_connection.php');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Handle login logic here
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Replace this with your actual SQL query to check username and password
+    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $query);
 
-    if ($result->num_rows > 0) {
-        $_SESSION['username'] = $username;
+    if (mysqli_num_rows($result) == 1) {
+        // Successful login
         header("Location: user_dashboard.php");
-        exit();
     } else {
-        echo "Invalid credentials.";
+        $error = "Invalid username or password.";
     }
 }
 ?>
@@ -26,23 +24,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <title>User Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../css/custom_styles.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">User Login</h2>
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+    <div class="container">
+        <h2 class="text-center mt-5">User Login</h2>
+        <?php if (isset($error)) { ?>
+            <div class="alert alert-danger text-center">
+                <?php echo $error; ?>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+        <?php } ?>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" class="form-control" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+        </div>
     </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/custom_scripts.js"></script>
 </body>
 </html>
