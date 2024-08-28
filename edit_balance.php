@@ -1,35 +1,67 @@
 <?php
 include('db_connection.php');
 
+// Ensure the database connection is established
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check for POST request and ID
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
     $new_balance = $_POST['balance'];
 
-    // Update balance in the database
-    $stmt = $conn->prepare("UPDATE users SET balance = ? WHERE id = ?");
-    $stmt->bind_param("di", $new_balance, $id);
-    
-    if ($stmt->execute()) {
-        echo "<div class='alert alert-success'>Balance updated successfully.</div>";
+    // Validate input
+    if (!is_numeric($new_balance) || $new_balance < 0) {
+        echo "<div class='alert alert-danger'>Invalid balance amount.</div>";
     } else {
-        echo "<div class='alert alert-danger'>Error updating balance: " . $stmt->error . "</div>";
-    }
+        // Prepare SQL statement
+        $stmt = $conn->prepare("UPDATE users SET balance = ? WHERE id = ?");
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
 
-    $stmt->close();
+        // Bind parameters
+        $stmt->bind_param("di", $new_balance, $id);
+
+        // Execute statement
+        if ($stmt->execute()) {
+            echo "<div class='alert alert-success'>Balance updated successfully.</div>";
+        } else {
+            echo "<div class='alert alert-danger'>Error updating balance: " . $stmt->error . "</div>";
+        }
+
+        // Close statement
+        $stmt->close();
+    }
 }
 
 // Fetch user data
 $user = null;
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
+
+    // Prepare SQL statement
     $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    // Bind parameters
     $stmt->bind_param("i", $id);
+
+    // Execute statement
     $stmt->execute();
     $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+    }
+    
+    // Close statement
     $stmt->close();
 }
 
+// Close connection
 $conn->close();
 ?>
 
