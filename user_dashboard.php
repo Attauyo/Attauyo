@@ -29,7 +29,7 @@ $notifications_result = $conn->query($notifications_query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>User Dashboard</title>
-    link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -102,7 +102,7 @@ $notifications_result = $conn->query($notifications_query);
 <body>
         <div class="container mt-5">
 <div class="notification">
-    This is a constant sliding notification. Stay updated with the latest info!
+    Greetings Charity! Note: That your monthly fee for the month of August which payment was made on the Tuesday 26/08/2024 has been accepted on Wednesday 27/08/2024.  But you still have outstanding tasks which you haven’t been completed. This includes investing the same amount of $1000 every month for 12months as you were selected among top class investors and your agreement which was sealed and I’m sure you also aware of the benefits this hold. So make sure you complete this tasks to enjoy the benefits and proceed with getting your funds
 </div>
         <div class="container d-flex justify-content-center align-items-center min-vh-10">
 
