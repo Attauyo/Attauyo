@@ -29,6 +29,7 @@ $notifications_result = $conn->query($notifications_query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>User Dashboard</title>
+    link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -37,6 +38,29 @@ $notifications_result = $conn->query($notifications_query);
                   body {
                   background-color:#FFF
                   }
+
+              /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Start off-screen to the right */
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideLeft 10s linear infinite;
+        }
+@keyframes slideLeft {
+            0% {
+                right: -100%;
+            }
+            100% {
+                right: 100%;
+            }
+              }
 
         .info-box {
 
@@ -77,6 +101,9 @@ $notifications_result = $conn->query($notifications_query);
 </head>
 <body>
         <div class="container mt-5">
+<div class="notification">
+    This is a constant sliding notification. Stay updated with the latest info!
+</div>
         <div class="container d-flex justify-content-center align-items-center min-vh-10">
 
     <div class="info-box">
@@ -168,5 +195,6 @@ $notifications_result = $conn->query($notifications_query);
             document.getElementById('notifications-section').style.display = 'block';
         });
     </script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
